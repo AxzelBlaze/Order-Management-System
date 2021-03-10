@@ -83,7 +83,7 @@ public class ProductDTO {
 		this.subcategory = subcategory;
 	}
 	
-	public Product createEntity() {
+	public Product createProduct() {
 		Product product = new Product();
 		product.setProdid(prodId);
 		product.setBrand(brand);
