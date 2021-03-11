@@ -1,6 +1,6 @@
 package com.oms.product.dto;
 
-import com.oms.product.product.entity.SubscribedProduct;
+import com.oms.product.entity.SubscribedProduct;
 
 public class SubscribedProductDTO {
 	

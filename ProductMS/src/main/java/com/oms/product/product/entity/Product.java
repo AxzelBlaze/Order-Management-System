@@ -1,5 +1,7 @@
 package com.oms.product.product.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,19 +15,19 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "prodid")
+	@Column(name = "prodid", length=11)
 	private Long prodId;
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	private String brand;
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	private String category;
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	private String description;
-	@Column(nullable = false)
+	@Column(nullable = false, length = 255)
 	private String image;
-	@Column(nullable = false)
-	private double price;
-	@Column(name = "productname", nullable = false)
+	@Column(nullable = false, precision = 10, scale = 2)
+	private BigDecimal price;
+	@Column(name = "productname", nullable = false, length = 255)
 	private String productName;
 	private long rating;
 	@Column(name = "sellerid", nullable = false)
@@ -65,10 +67,10 @@ public class Product {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	public String getProductName() {

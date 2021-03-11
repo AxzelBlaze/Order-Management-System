@@ -1,27 +1,46 @@
-package com.oms.product.dto;
+package com.oms.product.entity;
 
 import java.math.BigDecimal;
 
-import com.oms.product.entity.Product;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class ProductDTO {
+@Entity
+@Table(name = "product")
+public class Product {
 
+	@Id
+	@Column(name = "prodid", length=11)
 	private Long prodId;
+	@Column(nullable = false, length = 255)
 	private String brand;
+	@Column(nullable = false, length = 255)
 	private String category;
+	@Column(nullable = false, length = 255)
 	private String description;
+	@Column(nullable = false, length = 255)
 	private String image;
+	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal price;
+	@Column(name = "productname", nullable = false, length = 255)
 	private String productName;
+	@Column(nullable = true, length = 11)
 	private Long rating;
+	@Column(name = "sellerid", nullable = false)
 	private Long sellerId;
+	@Column(nullable = false)
 	private long stock;
 	private String subcategory;
 	
-	public long getProdId() {
+	
+	public Long getProdid() {
 		return prodId;
 	}
-	public void setProdId(long prodId) {
+	public void setProdid(Long prodId) {
 		this.prodId = prodId;
 	}
 	public String getBrand() {
@@ -84,45 +103,5 @@ public class ProductDTO {
 	public void setSubcategory(String subcategory) {
 		this.subcategory = subcategory;
 	}
-	
-	public Product createProduct() {
-		Product product = new Product();
-		product.setProdid(prodId);
-		product.setBrand(brand);
-		product.setCategory(category);
-		product.setDescription(description);
-		product.setImage(image);
-		product.setPrice(price);
-		product.setProductName(productName);
-		product.setRating(rating);
-		product.setSellerId(sellerId);
-		product.setStock(stock);
-		product.setSubcategory(subcategory);
-		return product;
-	}
-	
-	public static ProductDTO valueOf(Product product) {
-		ProductDTO prodDTO = new ProductDTO();
-		prodDTO.setProdId(product.getProdid());
-		prodDTO.setBrand(product.getBrand());
-		prodDTO.setCategory(product.getCategory());
-		prodDTO.setDescription(product.getDescription());
-		prodDTO.setImage(product.getImage());
-		prodDTO.setPrice(product.getPrice());
-		prodDTO.setProductName(product.getProductName());
-		prodDTO.setRating(product.getRating());
-		prodDTO.setSellerId(product.getSellerId());
-		prodDTO.setStock(product.getStock());
-		prodDTO.setSubcategory(product.getSubcategory());
-		return prodDTO;
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return "ProductDTO [prodId=" + prodId + ", productName=" + productName + ", brand=" + brand
-				+ ", category=" + category + ", price=" + price + "]";
-	}
-	
 	
 }
