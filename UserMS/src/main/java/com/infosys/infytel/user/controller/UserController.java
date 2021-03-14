@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.infosys.infytel.user.dto.BuyerDTO;
 import com.infosys.infytel.user.dto.BuyerLoginDTO;
 import com.infosys.infytel.user.dto.CartDTO;
+import com.infosys.infytel.user.dto.CartIdDTO;
 import com.infosys.infytel.user.dto.SellerDTO;
 import com.infosys.infytel.user.dto.SellerLoginDTO;
 import com.infosys.infytel.user.service.CartService;
@@ -145,33 +146,6 @@ public class UserController {
 			}
 		}
 		
-		//***Implementation of findCartByBuyerID
-		@GetMapping(value = "/cart/buyer/{buyerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<CartDTO>> findCartByBuyerId(@PathVariable Integer buyerId) {
-			logger.info("===GET Request for Carts with buyerId{}", buyerId);
-			try {
-				List<CartDTO> cartDTOList = cartService.getByBuyerId(buyerId);
-				ResponseEntity<List<CartDTO>> response = new ResponseEntity<List<CartDTO>>(cartDTOList, HttpStatus.OK);
-				return response;
-			}
-			catch(Exception e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,environment.getProperty(e.getMessage()),e);
-			}
-		}
-			
-		//***Implementation of addProductToCart
-		@PostMapping(value = "/cart/add",  consumes = MediaType.APPLICATION_JSON_VALUE)
-		public void addProduct(@RequestBody CartDTO cartDTO) {
-			logger.info("====Cart Creation Request for cart with data {}", cartDTO);
-			cartService.addToCart(cartDTO);
-		}
-			
-		//***Implementation of deleteFromCart
-		@DeleteMapping(value = "/cart/remove", consumes = MediaType.APPLICATION_JSON_VALUE)
-		public void deleteProduct(@RequestBody CartDTO cartDTO) {
-			logger.info("======Cart Deletion Request=========");
-			cartService.deleteFromCart(cartDTO);
-		}
-			
+		
 			
 }

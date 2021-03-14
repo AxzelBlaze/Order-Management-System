@@ -25,10 +25,10 @@ public class CartDTO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	
 	@Override
 	public String toString() {
-		return "CartDTO [quantity=" + quantity + "]";
-		
+		return "CartDTO [buyerId=" + buyerId + ", productId=" + productId + ", quantity=" + quantity + "]";
 	}
 	public static CartDTO valueOf(CartEntity cartEntity) {
 		CartDTO cartDTO = new CartDTO();

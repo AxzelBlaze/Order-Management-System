@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.infosys.infytel.user.dto.CartDTO;
+import com.infosys.infytel.user.dto.CartIdDTO;
 import com.infosys.infytel.user.entity.CartEntity;
+import com.infosys.infytel.user.entity.CartId;
 import com.infosys.infytel.user.repository.CartRepository;
 
 @Service
@@ -39,16 +41,26 @@ public class CartService {
 		return cartDTOList;
 	}
 	
-	public void addToCart(CartDTO cartDTO) {
+	public void addToCart(CartDTO cartDTO) throws Exception {
 		logger.info("======Cart Creation Request for data {}======", cartDTO);
+		CartId cartId = new CartId();
+		cartId.setBuyerId(cartDTO.getBuyerId());
+		cartId.setProductId(cartDTO.getProductId());
+		
+		Optional <CartEntity> optCart = cartRepository.findById(cartId);
+		if(optCart.isPresent()) {
+			throw new Exception("CART.PRESENT");
+		}
 		CartEntity cart = cartDTO.createEntity();
 		cartRepository.save(cart);
+		
 	}
 	
-	public void deleteFromCart(CartDTO cartDTO) {
-		logger.info("======Cart Deletion Request for cart========");
-		CartEntity cart = cartDTO.createEntity();
-		cartRepository.delete(cart);
+	public void deleteFromCart(CartIdDTO cartIdDTO) {
+		logger.info("======Cart Deletion Request for cart {}========", cartIdDTO);
+		
+		CartId cartId = cartIdDTO.createEntity();
+		cartRepository.deleteById(cartId);
 	}
 	
 	
