@@ -15,7 +15,7 @@ public class ProductDTO {
 	private String productName;
 	private Long rating;
 	private Long sellerId;
-	private long stock;
+	private Integer stock;
 	private String subcategory;
 	
 	public long getProdId() {
@@ -72,10 +72,10 @@ public class ProductDTO {
 	public void setSellerId(Long sellerId) {
 		this.sellerId = sellerId;
 	}
-	public long getStock() {
+	public Integer getStock() {
 		return stock;
 	}
-	public void setStock(long stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 	public String getSubcategory() {

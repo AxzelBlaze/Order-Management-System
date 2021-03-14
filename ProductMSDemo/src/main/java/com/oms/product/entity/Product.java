@@ -32,8 +32,8 @@ public class Product {
 	private Long rating;
 	@Column(name = "sellerid", nullable = false)
 	private Long sellerId;
-	@Column(nullable = false)
-	private long stock;
+	@Column(nullable = false, length = 11)
+	private Integer stock;
 	private String subcategory;
 	
 	
@@ -91,10 +91,10 @@ public class Product {
 	public void setSellerId(Long sellerId) {
 		this.sellerId = sellerId;
 	}
-	public long getStock() {
+	public Integer getStock() {
 		return stock;
 	}
-	public void setStock(long stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 	public String getSubcategory() {
