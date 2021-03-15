@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,6 +26,7 @@ import com.oms.product.service.ProductService;
 
 @RestController
 @CrossOrigin
+@RequestMapping(value = "/api")
 public class ProductsController {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -34,6 +36,7 @@ public class ProductsController {
 	
 	@Autowired
 	Environment environment;
+	
 	//Finding all Products
 	@GetMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ProductDTO> getAllProducts() {
@@ -41,6 +44,7 @@ public class ProductsController {
 		return productService.getAllProducts();
 	}
 	
+	//Finding Product by Id
 	@GetMapping(value = "/products/id/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductDTO> getProductById(@PathVariable Long productId) {
 		logger.info("===ProductController : Fetching details of product with productId {}", productId);
@@ -53,18 +57,21 @@ public class ProductsController {
 		}
 	}
 
+	//Finding Product By Name
 	@GetMapping(value = "/products/name/{productName}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ProductDTO getProductByName(@PathVariable String productName) {
 		logger.info("===ProductController : Fetching details of productName {}", productName);
 		return productService.getProductByName(productName);
 	}
 	
+	//Finding Products By Category
 	@GetMapping(value = "/products/category/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ProductDTO> getProductsByCategory(@PathVariable String category) {
 		logger.info("===ProductController : Fetching all products by category {}", category);
 		return productService.getProductByCategory(category);
 	}
 	
+	//Adding product
 	@PostMapping(value = "/seller/{sellerId}/add",  consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addProduct(@PathVariable Long sellerId, @RequestBody ProductDTO productDTO) {
 		logger.info("====Product Creation Request by seller {} for product with productId {}", sellerId, productDTO);
@@ -79,6 +86,7 @@ public class ProductsController {
 		}
 	}
 	
+	//Update Product Stock
 	@PutMapping(value = "/seller/{sellerId}/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Object updateStock(@PathVariable Long sellerId, @PathVariable Long productId, @RequestBody QuantityDTO quantity) {
 		logger.info("====Product Stock Updation Request by seller {} for product with productId {}", sellerId, productId);
@@ -86,6 +94,7 @@ public class ProductsController {
 		return productService.updateStock(productId, quantity.getQuantity());
 	}
 	
+	//Delete Product
 	@DeleteMapping(value = "/seller/{sellerId}/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteProduct(@PathVariable Long sellerId, @PathVariable Long productId) {
 		logger.info("======Product Deletion Request by seller {} with product {}", sellerId, productId);

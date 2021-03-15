@@ -51,5 +51,10 @@ public class SubscribedProductDTO {
 		subProdDTO.setSubId(subProduct.getSubId());
 		return subProdDTO;
 	}
+	@Override
+	public String toString() {
+		return "SubscribedProductDTO [subId=" + subId + ", buyerId=" + buyerId + ", prodId=" + prodId + ", quantity="
+				+ quantity + "]";
+	}
 	
 }

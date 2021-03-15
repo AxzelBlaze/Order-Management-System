@@ -17,7 +17,8 @@ import com.oms.product.validator.Validator;
 
 @Service
 public class ProductService {
-Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	ProductRepository prodRepo;
