@@ -51,33 +51,33 @@ public class ProductService {
 
 	}
 	
-	public ProductDTO getProductByName(String name) {
+	public ProductDTO getProductByName(String name) throws Exception {
 		logger.info("======Product Name : {}======", name);
 		ProductDTO prodDTO = null;
 		Optional<Product> optProduct = prodRepo.findByProductName(name);
-		if (optProduct.isPresent()) {
-			Product product = optProduct.get();
-			prodDTO = ProductDTO.valueOf(product);
+		if (!optProduct.isPresent()) {
+			throw new Exception("Name.NOT_FOUND");
 		}
-
+		Product product = optProduct.get();
+		prodDTO = ProductDTO.valueOf(product);
+		
 		return prodDTO;
 
 	}
 	
-	public List<ProductDTO> getProductByCategory(String category) {
+	public List<ProductDTO> getProductByCategory(String category) throws Exception {
 		logger.info("======Product Category : {}======", category);
 		
 		List<ProductDTO> prodDTOByCategory = new ArrayList<ProductDTO>();
-		//List<Optional<Product>> optProductByCategory = prodRepo.findByCategory(category);
 		List<Product> productsByCategory = prodRepo.findByCategory(category);
 		
-		if (!productsByCategory.isEmpty()) {
-			for(Product product : productsByCategory) {
-				ProductDTO productDTO = ProductDTO.valueOf(product);
-				prodDTOByCategory.add(productDTO);		
-			}
+		if (productsByCategory.isEmpty()) {
+			throw new Exception("Category.NOT_FOUND");
 		}
-
+		for(Product product : productsByCategory) {
+			ProductDTO productDTO = ProductDTO.valueOf(product);
+			prodDTOByCategory.add(productDTO);		
+		}
 		return prodDTOByCategory;
 
 	}
@@ -106,22 +106,28 @@ public class ProductService {
 		prodRepo.save(product);
 	}
 	
-	public void deleteProductById(Long productId) {
+	public void deleteProductById(Long productId) throws Exception {
 		logger.info("======Product Deletion Request for product with ID{}======", productId);
+		Optional<Product> optProduct = prodRepo.findById(productId);
+		if (!optProduct.isPresent()) {
+			throw new Exception("Product.NOT_FOUND");
+		}
 		
 		prodRepo.deleteById(productId);
 	}
 	
-	public ProductDTO updateStock(Long productId, Integer quantity) {
+	public ProductDTO updateStock(Long productId, Integer quantity) throws Exception {
 		logger.info("======Product Stock Updation Request for product with ID{}======", productId);
 		//Long stock = new Long(quantity);
 		Product existingProduct = null;
 		Optional<Product> optProduct = prodRepo.findById(productId);
-		if (optProduct.isPresent()) {
-			existingProduct = optProduct.get();
-			existingProduct.setStock(quantity);
-			prodRepo.save(existingProduct);
+		if (!optProduct.isPresent()) {
+			throw new Exception("Product.NOT_FOUND");
 		}
+		existingProduct = optProduct.get();
+		existingProduct.setStock(quantity);
+		prodRepo.save(existingProduct);
+		
 		return ProductDTO.valueOf(existingProduct);
 	}
 }

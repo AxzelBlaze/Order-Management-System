@@ -59,16 +59,28 @@ public class ProductsController {
 
 	//Finding Product By Name
 	@GetMapping(value = "/products/name/{productName}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ProductDTO getProductByName(@PathVariable String productName) {
+	public ResponseEntity<ProductDTO> getProductByName(@PathVariable String productName) {
 		logger.info("===ProductController : Fetching details of productName {}", productName);
-		return productService.getProductByName(productName);
+		try {
+			ProductDTO productDTO =  productService.getProductByName(productName);
+			return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, environment.getProperty(e.getMessage()), e);
+		}
 	}
 	
 	//Finding Products By Category
 	@GetMapping(value = "/products/category/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<ProductDTO> getProductsByCategory(@PathVariable String category) {
+	public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable String category) {
 		logger.info("===ProductController : Fetching all products by category {}", category);
-		return productService.getProductByCategory(category);
+		try {
+			List<ProductDTO> productDTOList =  productService.getProductByCategory(category);
+			return new ResponseEntity<List<ProductDTO>>(productDTOList, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, environment.getProperty(e.getMessage()), e);
+		}
 	}
 	
 	//Adding product
@@ -88,17 +100,30 @@ public class ProductsController {
 	
 	//Update Product Stock
 	@PutMapping(value = "/seller/{sellerId}/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Object updateStock(@PathVariable Long sellerId, @PathVariable Long productId, @RequestBody QuantityDTO quantity) {
+	public ResponseEntity<ProductDTO> updateStock(@PathVariable Long sellerId, @PathVariable Long productId, @RequestBody QuantityDTO quantity) {
 		logger.info("====Product Stock Updation Request by seller {} for product with productId {}", sellerId, productId);
 		//System.out.println(quantity);
-		return productService.updateStock(productId, quantity.getQuantity());
+		try {
+			ProductDTO productDTO =  productService.updateStock(productId, quantity.getQuantity());
+			return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, environment.getProperty(e.getMessage()), e);
+		}
 	}
 	
 	//Delete Product
 	@DeleteMapping(value = "/seller/{sellerId}/{productId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteProduct(@PathVariable Long sellerId, @PathVariable Long productId) {
+	public ResponseEntity<String> deleteProduct(@PathVariable Long sellerId, @PathVariable Long productId) {
 		logger.info("======Product Deletion Request by seller {} with product {}", sellerId, productId);
-		productService.deleteProductById(productId);
+		try {
+			productService.deleteProductById(productId);
+			String msg = environment.getProperty("PRODUCT.DELETED") + " with " + productId;
+			return new ResponseEntity<String>(msg, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, environment.getProperty(e.getMessage()), e);
+		}
 	}
 	
 }

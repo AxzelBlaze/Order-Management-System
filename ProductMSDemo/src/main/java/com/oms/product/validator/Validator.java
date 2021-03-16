@@ -2,19 +2,10 @@ package com.oms.product.validator;
 
 import java.math.BigDecimal;
 
-import com.oms.product.entity.Product;
 
 public class Validator {
 
-//	public static Boolean validate(Product product) throws Exception{
-//		if(validateName(product.getProductName()) && validatePrice(product.getPrice()) && 
-//				validateStock(product.getStock()) && validateImage(product.getImage()) && 
-//				validateDescription(product.getDescription())) {
-//			return true;
-//		}
-//		return false;
-//	}
-	
+
 	public static Boolean validateName(String name){
 		if((name.length() <= 100) && !name.matches("[ ]*") && name.matches("([A-Za-z])+(\\s[A-Za-z]+)*")) {
 			return true;
